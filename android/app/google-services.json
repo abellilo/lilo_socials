@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "78227975821",
+    "project_id": "lilo-socials",
+    "storage_bucket": "lilo-socials.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:78227975821:android:b4730c2481dc36b0723cc4",
+        "android_client_info": {
+          "package_name": "com.example.lilo_socials"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVTexhHWunnw9ET1DKxSmTxJEZwY3ocvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
