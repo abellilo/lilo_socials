@@ -5,6 +5,7 @@ import 'package:lilo_socials/auth/auth_service/auth_service.dart';
 import 'package:lilo_socials/components/drawer.dart';
 import 'package:lilo_socials/components/my_textfield.dart';
 import 'package:lilo_socials/components/posts.dart';
+import 'package:lilo_socials/helper/helper_method.dart';
 
 import 'profile_page.dart';
 
@@ -108,6 +109,7 @@ class _HomePageState extends State<HomePage> {
                           return Post(message: post['Message'],
                               user: post['UserEmail'],
                             postId: post.id,
+                            time: formatData(post['Timestamp']),
                             likes: List<String>.from(post['Likes'] ?? []),
                           );
                         }
