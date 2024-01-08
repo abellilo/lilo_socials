@@ -17,8 +17,17 @@ String formatData(Timestamp time){
   //get day
   String day = dateTime.day.toString();
 
+  //get hour
+  String hour = dateTime.hour.toString();
+
+  //get minute
+  String min = dateTime.minute.toString();
+
+  //get seconds
+  String secs = dateTime.second.toString();
+
   //final formatted date
-  String formattedData = day + '/' + month + '/' + year;
+  String formattedData = day + '/' + month + '/' + year+" "+hour+":"+min+":"+secs;
 
   return formattedData;
 }

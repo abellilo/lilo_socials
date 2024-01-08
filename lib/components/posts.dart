@@ -11,7 +11,7 @@ class Post extends StatefulWidget {
   final String message;
   final String user;
   final String postId;
-  final List<String> likes;
+  final List likes;
   final String time;
 
   Post(
@@ -84,6 +84,7 @@ class _PostState extends State<Post> {
         context: context,
         builder: (context) {
           return AlertDialog(
+            backgroundColor: Colors.grey[200],
             title: Text("Add Comment"),
             content: TextField(
               controller: _commentTextController,
@@ -100,7 +101,9 @@ class _PostState extends State<Post> {
                     //clear controller
                     _commentTextController.clear();
                   },
-                  child: Text("Cancel")),
+                  child: Text("Cancel",style: TextStyle(
+                    color: Colors.black
+                  ),)),
 
               //post button
               TextButton(
@@ -114,7 +117,9 @@ class _PostState extends State<Post> {
                     //clear controller
                     _commentTextController.clear();
                   },
-                  child: Text("Post")),
+                  child: Text("Post",style: TextStyle(
+                    color: Colors.brown[800]
+                  ),)),
             ],
           );
         });
@@ -125,13 +130,16 @@ class _PostState extends State<Post> {
     showDialog(
         context: context,
         builder: (cxt) => AlertDialog(
+              backgroundColor: Colors.grey[200],
               title: Text("Delete Post"),
               content: Text("Are you sure you want to delete this post"),
               actions: [
                 //cancel button
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text("Cancel")),
+                    child: Text("Cancel",style: TextStyle(
+                        color: Colors.black
+                    ))),
 
                 //delete button
                 TextButton(
@@ -163,7 +171,9 @@ class _PostState extends State<Post> {
                       //pop box
                       Navigator.pop(cxt);
                     },
-                    child: Text("Delete")),
+                    child: Text("Delete",style: TextStyle(
+                      color: Colors.red
+                    ),)),
               ],
             ));
   }
@@ -183,32 +193,27 @@ class _PostState extends State<Post> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  //message
-                  Text(widget.message),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  //user
-                  Row(
-                    children: [
-                      Text(
-                        widget.user,
-                        style: TextStyle(color: Colors.grey[400]),
-                      ),
-                      Text(
-                        " . ",
-                        style: TextStyle(color: Colors.grey[400]),
-                      ),
-                      Text(
-                        widget.time,
-                        style: TextStyle(color: Colors.grey[400]),
-                      ),
-                    ],
-                  )
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //message
+                    Text(widget.message),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    //user
+                    Text(
+                      widget.user,
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                    //time
+                    Text(
+                      widget.time,
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                  ],
+                ),
               ),
 
               //delete button
@@ -224,6 +229,7 @@ class _PostState extends State<Post> {
           //like button & like count
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 children: [
@@ -246,10 +252,10 @@ class _PostState extends State<Post> {
                   CommentButton(onTap: showCommentDialog),
 
                   //comment count
-                  Text(
-                    "0",
-                    style: TextStyle(color: Colors.grey),
-                  )
+                  // Text(
+                  //   "0",
+                  //   style: TextStyle(color: Colors.grey),
+                  // )
                 ],
               ),
             ],

@@ -25,19 +25,14 @@ class Comment extends StatelessWidget {
           Text(text),
 
           //user, time
-          Row(
-            children: [
-              Text(user,style: TextStyle(
-                color: Colors.grey[400]
-              ),),
-              Text(" . ",style: TextStyle(
-                  color: Colors.grey[400]
-              ),),
-              Text(time,style: TextStyle(
-                  color: Colors.grey[400]
-              ),),
-            ],
-          )
+          Text(user,style: TextStyle(
+              color: Colors.grey[400],
+            fontSize: 10
+          ),),
+          Text(time,style: TextStyle(
+              color: Colors.grey[400],
+              fontSize: 7
+          ),),
         ],
       ),
     );

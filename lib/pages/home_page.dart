@@ -68,7 +68,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.brown[300],
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.grey[900],
@@ -77,13 +77,6 @@ class _HomePageState extends State<HomePage> {
           "Lilo Socials",
           style: TextStyle(fontSize: 18, color: Colors.white),
         ),
-        actions: [
-          IconButton(
-            onPressed: logout,
-            icon: Icon(Icons.logout),
-            color: Colors.white,
-          )
-        ],
       ),
       drawer: MyDrawer(
         onProfileTap: goToProfilePage,
@@ -110,7 +103,7 @@ class _HomePageState extends State<HomePage> {
                               user: post['UserEmail'],
                             postId: post.id,
                             time: formatData(post['Timestamp']),
-                            likes: List<String>.from(post['Likes'] ?? []),
+                            likes: post['Likes'],
                           );
                         }
                     );
@@ -124,28 +117,39 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
+
             //post message
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Row(
+            Container(
+              color: Colors.brown[800],
+              child: Column(
                 children: [
-                  Expanded(
-                    child: MyTextField(
-                      controller: textController,
-                      textHint: "Write something on the wall..",
-                      obsureText: false,
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: MyTextField(
+                            controller: textController,
+                            textHint: "Write something on the wall..",
+                            obsureText: false,
+                          ),
+                        ),
+
+                        //post button
+                        IconButton(
+                            onPressed: postMessage, icon: Icon(Icons.arrow_circle_up,color: Colors.white,size: 35,))
+                      ],
                     ),
                   ),
 
-                  //post button
-                  IconButton(
-                      onPressed: postMessage, icon: Icon(Icons.arrow_circle_up))
+                  //logged in as
+                  Text("Logged in as " + currentUser.email!,style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold
+                  ),)
                 ],
               ),
             ),
-
-            //logged in as
-            Text("Logged in as " + currentUser.email!)
           ],
         ),
       ),

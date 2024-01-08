@@ -150,13 +150,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
 
                 //user posts
-                Padding(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Text(
-                    "My Posts",
-                    style: TextStyle(color: Colors.grey[600]),
-                  ),
-                ),
+                // Padding(
+                //   padding: EdgeInsets.only(left: 25),
+                //   child: Text(
+                //     "My Posts",
+                //     style: TextStyle(color: Colors.grey[600]),
+                //   ),
+                // ),
               ],
             );
           }

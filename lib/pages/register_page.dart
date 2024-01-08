@@ -48,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.brown[300],
       body: SafeArea(
         child: Center(
           child: Padding(
@@ -70,7 +70,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   //welcome back
                   Text(
                     "Let's create an account for you",
-                    style: TextStyle(color: Colors.grey[700]),
+                    style: TextStyle(color: Colors.white),
                   ),
 
                   const SizedBox(
@@ -120,7 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     children: [
                       Text(
                         "Already have an account?",
-                        style: TextStyle(color: Colors.grey[700]),
+                        style: TextStyle(color: Colors.black),
                       ),
                       const SizedBox(
                         width: 5,
@@ -130,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         child: const Text(
                           "Login now",
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.blue),
+                              fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       )
                     ],

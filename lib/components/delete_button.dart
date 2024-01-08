@@ -6,6 +6,6 @@ class DeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(onPressed: onTap, icon: Icon(Icons.cancel, color: Colors.grey,));
+    return IconButton(onPressed: onTap, icon: Icon(Icons.cancel, color: Colors.yellow[800],));
   }
 }
