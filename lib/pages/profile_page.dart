@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:lilo_socials/components/posts.dart';
 import 'package:lilo_socials/components/text_box.dart';
+
+import '../helper/helper_method.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -71,6 +74,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.brown[300],
       appBar: AppBar(
         title: Text(
           "Profile Page",
@@ -85,91 +89,139 @@ class _ProfilePageState extends State<ProfilePage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection("Users")
-            .doc(currentUser.email)
-            .snapshots(),
-        builder: (context, snapshot) {
-          //get data
-          if (snapshot.hasData) {
-            Map<String, dynamic> userData =
+      body: ListView(
+        children: [
+          const SizedBox(
+            height: 50,
+          ),
+
+          //profile pic
+          Center(
+            child: Icon(
+              Icons.person,
+              size: 72,
+            ),
+          ),
+
+          const SizedBox(
+            height: 10,
+          ),
+
+          //user email
+          Center(
+            child: Text(
+              currentUser.email!,
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+
+          const SizedBox(
+            height: 50,
+          ),
+
+          //user details
+          Padding(
+            padding: EdgeInsets.only(left: 25),
+            child: Text(
+              "My Details",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+
+          StreamBuilder<DocumentSnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection("Users")
+                .doc(currentUser.email)
+                .snapshots(),
+            builder: (context, snapshot) {
+              //get data
+              if (snapshot.hasData) {
+                Map<String, dynamic> userData =
                 snapshot.data!.data() as Map<String, dynamic>;
-            return ListView(
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
+                return Column(
+                  children: [
 
-                //profile pic
-                Icon(
-                  Icons.person,
-                  size: 72,
-                ),
+                    //username
+                    MyTextBox(
+                      text: userData['username'],
+                      sectionName: "username",
+                      onTap: () => editField("username"),
+                    ),
 
-                const SizedBox(
-                  height: 10,
-                ),
+                    //bio
+                    MyTextBox(
+                      text: userData['bio'],
+                      sectionName: "bio",
+                      onTap: () => editField("bio"),
+                    ),
+                  ],
+                );
+              }
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text("Error " + snapshot.hasError.toString()),
+                );
+              }
+              return Center(
+                child: Text("loading....",style: TextStyle(
+                    color: Colors.yellow
+                ),),
+              );
+            },
+          ),
 
-                //user email
-                Text(
-                  currentUser.email!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Colors.grey[700]),
-                ),
+          const SizedBox(
+            height: 50,
+          ),
 
-                const SizedBox(
-                  height: 50,
-                ),
+          //user posts
+          Padding(
+            padding: EdgeInsets.only(left: 25),
+            child: Text(
+              "My Posts",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
 
-                //user details
-                Padding(
-                  padding: EdgeInsets.only(left: 25),
-                  child: Text(
-                    "My Details",
-                    style: TextStyle(color: Colors.grey[600]),
-                  ),
-                ),
-
-                //username
-                MyTextBox(
-                  text: userData['username'],
-                  sectionName: "username",
-                  onTap: () => editField("username"),
-                ),
-
-                //bio
-                MyTextBox(
-                  text: userData['bio'],
-                  sectionName: "bio",
-                  onTap: () => editField("bio"),
-                ),
-
-                const SizedBox(
-                  height: 50,
-                ),
-
-                //user posts
-                // Padding(
-                //   padding: EdgeInsets.only(left: 25),
-                //   child: Text(
-                //     "My Posts",
-                //     style: TextStyle(color: Colors.grey[600]),
-                //   ),
-                // ),
-              ],
-            );
-          }
-          if (snapshot.hasError) {
-            return Center(
-              child: Text("Error " + snapshot.hasError.toString()),
-            );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
+          //show my post
+          StreamBuilder(
+              stream: FirebaseFirestore.instance.collection("User Posts").snapshots(),
+              builder: (context, snapshot){
+                if(snapshot.hasData){
+                  final posts = snapshot.data!.docs;
+                  return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: posts.length,
+                      itemBuilder: (context, index){
+                        final post = posts[index];
+                        if(currentUser.email == post['UserEmail']){
+                          return Post(
+                              time: formatData(post['Timestamp']),
+                              message: post['Message'],
+                              user: post['UserEmail'],
+                              likes: post['Likes'],
+                              postId: post.id
+                          );
+                        }
+                        else{
+                          return Container();
+                        }
+                      });
+                }
+                if(snapshot.hasError){
+                  return Center(
+                    child: Text("Error "+snapshot.hasError.toString()),
+                  );
+                }
+                return Center(child: Text("loading...",style: TextStyle(
+                  color: Colors.yellow
+                ),));
+              }
+          ),
+        ],
+      )
     );
   }
 }

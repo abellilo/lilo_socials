@@ -101,9 +101,10 @@ class _PostState extends State<Post> {
                     //clear controller
                     _commentTextController.clear();
                   },
-                  child: Text("Cancel",style: TextStyle(
-                    color: Colors.black
-                  ),)),
+                  child: Text(
+                    "Cancel",
+                    style: TextStyle(color: Colors.black),
+                  )),
 
               //post button
               TextButton(
@@ -117,9 +118,10 @@ class _PostState extends State<Post> {
                     //clear controller
                     _commentTextController.clear();
                   },
-                  child: Text("Post",style: TextStyle(
-                    color: Colors.brown[800]
-                  ),)),
+                  child: Text(
+                    "Post",
+                    style: TextStyle(color: Colors.brown[800]),
+                  )),
             ],
           );
         });
@@ -137,9 +139,8 @@ class _PostState extends State<Post> {
                 //cancel button
                 TextButton(
                     onPressed: () => Navigator.of(context).pop(),
-                    child: Text("Cancel",style: TextStyle(
-                        color: Colors.black
-                    ))),
+                    child:
+                        Text("Cancel", style: TextStyle(color: Colors.black))),
 
                 //delete button
                 TextButton(
@@ -164,16 +165,18 @@ class _PostState extends State<Post> {
                       await FirebaseFirestore.instance
                           .collection("User Posts")
                           .doc(widget.postId)
-                          .delete().then((value) => print("post deleted"))
-                          .catchError(
-                              (error) => print("Failed to delete post "+error.toString()));
+                          .delete()
+                          .then((value) => print("post deleted"))
+                          .catchError((error) => print(
+                              "Failed to delete post " + error.toString()));
 
                       //pop box
                       Navigator.pop(cxt);
                     },
-                    child: Text("Delete",style: TextStyle(
-                      color: Colors.red
-                    ),)),
+                    child: Text(
+                      "Delete",
+                      style: TextStyle(color: Colors.red),
+                    )),
               ],
             ));
   }
