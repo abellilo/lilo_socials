@@ -6,7 +6,7 @@ import 'package:lilo_socials/components/drawer.dart';
 import 'package:lilo_socials/components/my_textfield.dart';
 import 'package:lilo_socials/components/posts.dart';
 import 'package:lilo_socials/helper/helper_method.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'profile_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,13 +23,24 @@ class _HomePageState extends State<HomePage> {
   //text controller
   final textController = TextEditingController();
 
+  bool loading = true;
+
   //logout
   void logout() async {
     try {
+      setState((){
+        loading = false;
+      });
       //declare auth service
       final authService = AuthService();
       await authService.signOut();
+      setState((){
+        loading = true;
+      });
     } on FirebaseAuthException catch (e) {
+      setState((){
+        loading = true;
+      });
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.code)));
     }
@@ -67,7 +78,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return loading ?Scaffold(
       backgroundColor: Colors.brown[300],
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
@@ -153,6 +164,15 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
+        ),
+      ),
+    )
+    : Scaffold(
+      backgroundColor: Colors.brown[300],
+      body: Center(
+        child: SpinKitChasingDots(
+          size: 150,
+          color: Colors.white,
         ),
       ),
     );
