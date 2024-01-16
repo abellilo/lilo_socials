@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:lilo_socials/auth/auth_service/auth_service.dart';
-
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../components/my_button.dart';
 import '../components/my_textfield.dart';
 
@@ -18,6 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+  bool loading = true;
 
   void registerUser() async {
     try {
@@ -25,10 +26,16 @@ class _RegisterPageState extends State<RegisterPage> {
           passwordController.text.isNotEmpty &&
           confirmPasswordController.text.isNotEmpty) {
         if(passwordController.text == confirmPasswordController.text){
+          setState(() {
+            loading = false;
+          });
           //auth service instance
           final authService = AuthService();
           await authService.registerUser(
               emailController.text, passwordController.text);
+          setState(() {
+            loading = true;
+          });
         }else{
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Password don't match"))
@@ -40,6 +47,9 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       }
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        loading = true;
+      });
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.code)));
     }
@@ -49,7 +59,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.brown[300],
-      body: SafeArea(
+      body: loading ? SafeArea(
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -58,10 +68,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //logo
-                  Icon(
-                    Icons.whatshot,
-                    size: 100,
-                  ),
+                  Image.asset("lib/assets/logo.png", width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 3,),
 
                   const SizedBox(
                     height: 50,
@@ -128,7 +138,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       GestureDetector(
                         onTap: widget.onTap,
                         child: const Text(
-                          "Login now",
+                          "Sign In now",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, color: Colors.white),
                         ),
@@ -139,6 +149,12 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
           ),
+        ),
+      )
+          : Center(
+        child: SpinKitChasingDots(
+          size: 150,
+          color: Colors.white,
         ),
       ),
     );

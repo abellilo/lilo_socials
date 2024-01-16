@@ -56,7 +56,8 @@ class _PostState extends State<Post> {
       reference.update({
         'Likes': FieldValue.arrayUnion([currentUser.email])
       });
-    } else {
+    }
+    else {
       //if the post is now unliked remove the user email from the list
       reference.update({
         'Likes': FieldValue.arrayRemove([currentUser.email])
@@ -296,7 +297,9 @@ class _PostState extends State<Post> {
                   );
                 }
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.brown,
+                  ),
                 );
               })
         ],

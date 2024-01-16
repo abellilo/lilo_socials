@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lilo_socials/auth/auth_service/auth_service.dart';
 import 'package:lilo_socials/components/my_button.dart';
 import 'package:lilo_socials/components/my_textfield.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class LoginPage extends StatefulWidget {
   final void Function()? onTap;
@@ -16,23 +17,33 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  bool loading = true;
 
   Future<void> signIn() async {
-    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty){
-      try{
+    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+      setState(() {
+        loading = false;
+      });
+      try {
         //auth service instance
         final authService = AuthService();
         //call sign in metthod
         await authService.signIn(emailController.text, passwordController.text);
-      }on FirebaseAuthException catch(e){
+        setState(() {
+          loading = true;
+        });
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          loading = true;
+        });
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(e.code))
         );
       }
     }
-    else{
+    else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Fill all fields"))
+          SnackBar(content: Text("Fill all fields"))
       );
     }
   }
@@ -41,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.brown[300],
-      body: SafeArea(
+      body: loading ? SafeArea(
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -50,10 +61,10 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   //logo
-                  Icon(
-                    Icons.whatshot,
-                    size: 100,
-                  ),
+                  Image.asset("lib/assets/logo.png", width: MediaQuery
+                      .of(context)
+                      .size
+                      .width / 3,),
 
                   const SizedBox(
                     height: 50,
@@ -121,6 +132,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
+        ),
+      )
+          : Center(
+        child: SpinKitChasingDots(
+          size: 150,
+          color: Colors.white,
         ),
       ),
     );

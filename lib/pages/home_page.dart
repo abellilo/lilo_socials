@@ -113,7 +113,9 @@ class _HomePageState extends State<HomePage> {
                       child: Text("Error"+ snapshot.error.toString()),
                     );
                   }
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ));
                 },
               ),
             ),
